@@ -6,7 +6,7 @@
 ![GitHub last commit](https://img.shields.io/github/last-commit/iemafzalhassan/full-stack_chatApp?color=green)
 
 
-## 📝 Introduction:
+## Introduction:
 
 This project aims to provide a real-time chat experience that's both scalable and secure. With a focus on modern technologies, we're building an application that's easy to use and maintain.
 
@@ -55,7 +55,7 @@ This project aims to provide a real-time chat experience that's both scalable an
 * **Styling Components:** DaisyUI
 
 
-## 🔧 Prerequisites:
+##  Prerequisites:
 
 
 * **[Node.js](https://nodejs.org/)** (v14 or higher)
@@ -63,7 +63,7 @@ This project aims to provide a real-time chat experience that's both scalable an
 * **[Git](https://git-scm.com/downloads)** (to clone the repository)
 
 
-## 📝 Setup .env File:
+##  Setup .env File:
 
 
 1. Navigate to the `backend` directory:
@@ -84,7 +84,7 @@ PORT=5001
 git clone https://github.com/iemafzalhassan/full-stack_chatApp.git
 ```
 
-## 🏗️ Build and Run the Application"
+## Build and Run the Application"
 
 Follow these steps to build and run the application:
 
@@ -104,7 +104,7 @@ http://localhost
 ```
 ---
 
-## 🛠️ Getting Started
+##  Getting Started
 
 Follow these simple steps to get the project up and running on your local Host using docker.
 
@@ -227,6 +227,7 @@ This project is evolving, and here are a few exciting things on the horizon:
 
 
 ## 📜 License
+
 
 
 This project is licensed under the MIT License. See the LICENSE file for more details.
