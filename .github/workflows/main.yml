@@ -22,18 +22,18 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
     # Backend
-- name: Build Backend Docker Image
-  run: docker build -t ${{ secrets.DOCKER_USERNAME }}/chatapp-backend ./backend
+      - name: Build Backend Docker Image
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/chatapp-backend ./backend
 
-- name: Push Backend to Docker Hub
-  run: docker push ${{ secrets.DOCKER_USERNAME }}/chatapp-backend
+      - name: Push Backend to Docker Hub
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/chatapp-backend
 
 # Frontend
-- name: Build Frontend Docker Image
-  run: docker build -t ${{ secrets.DOCKER_USERNAME }}/chatapp-frontend ./frontend
+      - name: Build Frontend Docker Image
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/chatapp-frontend ./frontend
 
-- name: Push Frontend to Docker Hub
-  run: docker push ${{ secrets.DOCKER_USERNAME }}/chatapp-frontend
+      - name: Push Frontend to Docker Hub
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/chatapp-frontend
 
 
       # 5. Deploy on EC2
