@@ -24,13 +24,13 @@ jobs:
       # 3. Build & Push Backend
       - name: Build and Push Backend
         run: |
-          docker build -t yashsuryawanshi07/chatapp-backend .
+          docker build -t yashsuryawanshi07/chatapp-backend ./backend 
           docker push ${{ secrets.DOCKER_USERNAME }}/chatapp-backend
 
       # 4. Build & Push Frontend
       - name: Build and Push Frontend
         run: |
-          docker build -t yashsuryawanshi07/chatapp-frontend .
+          docker build -t yashsuryawanshi07/chatapp-frontend ./frontend
           docker push ${{ secrets.DOCKER_USERNAME }}/chatapp-frontend
 
       # 5. Deploy on EC2
