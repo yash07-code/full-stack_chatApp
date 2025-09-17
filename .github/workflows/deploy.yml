@@ -1,0 +1,56 @@
+name: Deploy Full-Stack ChatApp
+
+on:
+  push:
+    branches:
+      - main   # Runs when you push to main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout code
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Step 2: Login to Docker Hub
+      - name: Docker Login
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      # Step 3: Build & Push Backend
+      - name: Build and Push Backend
+        run: |
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/chatapp-backend ./backend
+          docker push ${{ secrets.DOCKER_USERNAME }}/chatapp-backend
+
+      # Step 4: Build & Push Frontend
+      - name: Build and Push Frontend
+        run: |
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/chatapp-frontend ./frontend
+          docker push ${{ secrets.DOCKER_USERNAME }}/chatapp-frontend
+
+      # Step 5: Deploy to AWS EC2
+      - name: Deploy on EC2
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_KEY }}
+          script: |
+            docker pull ${{ secrets.DOCKER_USERNAME }}/chatapp-backend
+            docker pull ${{ secrets.DOCKER_USERNAME }}/chatapp-frontend
+
+            docker stop backend || true && docker rm backend || true
+            docker stop frontend || true && docker rm frontend || true
+
+            docker run -d --name backend -p 5000:5000 \
+              -e MONGODB_URI=${{ secrets.MONGODB_URI }} \
+              ${{ secrets.DOCKER_USERNAME }}/chatapp-backend
+
+            docker run -d --name frontend -p 80:80 \
+              -e REACT_APP_API=http://${{ secrets.EC2_HOST }}:5000 \
+              ${{ secrets.DOCKER_USERNAME }}/chatapp-frontend
