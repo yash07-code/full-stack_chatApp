@@ -3,7 +3,7 @@ name: Deploy Full-Stack ChatApp
 on:
   push:
     branches:
-      - main   # Runs when you push to main
+      - main   
 
 jobs:
   deploy:
