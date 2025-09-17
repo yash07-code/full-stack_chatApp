@@ -1,0 +1,43 @@
+name: Deploy Backend to EC2
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: |
+          cd backend
+          docker build -t chatapp-backend .
+
+      - name: Save Docker image
+        run: |
+          docker save chatapp-backend | gzip > chatapp-backend.tar.gz
+
+      - name: Copy image to EC2
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_KEY }}
+          source: "chatapp-backend.tar.gz"
+          target: "/home/ubuntu/"
+
+      - name: SSH into EC2 and run container
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            docker load < chatapp-backend.tar.gz
+            docker stop chatapp || true && docker rm chatapp || true
+            docker run -d --name chatapp -p 80:3000 \
+              -e MONGODB_URI=${{ secrets.MONGODB_URI }} \
+              -e JWT_SECRET=${{ secrets.JWT_SECRET }} \
+              chatapp-backend
