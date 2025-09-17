@@ -23,14 +23,14 @@ jobs:
 
     # Backend
       - name: Build Backend Docker Image
-        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/chatapp-backend ./backend
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/chatapp-backend .
 
       - name: Push Backend to Docker Hub
         run: docker push ${{ secrets.DOCKER_PASSWORD }}/chatapp-backend
 
 # Frontend
       - name: Build Frontend Docker Image
-        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/chatapp-frontend ./frontend
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/chatapp-frontend .
 
       - name: Push Frontend to Docker Hub
         run: docker push ${{ secrets.DOCKER_PASSWORD }}/chatapp-frontend
